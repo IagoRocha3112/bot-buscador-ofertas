@@ -8,7 +8,7 @@ from dotenv import load_dotenv, find_dotenv
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 ENV_PATH = CURRENT_PATH + '/../.env'
-load_dotenv(dotenv_path=env_path)
+load_dotenv(dotenv_path=ENV_PATH)
 
 
 class BrowserManager():
@@ -27,7 +27,10 @@ class BrowserManager():
         # Create object Chrome WebDriver
         webDriver = webdriver.Chrome(
             executable_path=pathChromeDriver, chrome_options=chromeOptions)
-        webDriver.set_window_size(1920, 1080)
+        # Get properties of screen automatically
+        dictWindowProperties = self.getWindowSize()
+        webDriver.set_window_size(
+            dictWindowProperties['width'], dictWindowProperties['heigth'])
         webDriver.set_window_position(0, 0)
         return webDriver
 
@@ -37,8 +40,13 @@ class BrowserManager():
     def close(self):
         pass
 
-    def getPropertiesScreen(self):
-        pass
+    def getWindowSize(self):
+        # Desenvolver rotina para obter tamanho da tela automaticamente (opcional)
+        propertiesWindow = {
+            'width': 1920,
+            'heigth': 1080
+        }
+        return propertiesWindow
 
 
 if __name__ == "__main__":
