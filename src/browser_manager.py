@@ -14,11 +14,33 @@ load_dotenv(dotenv_path=ENV_PATH)
 class BrowserManager():
 
     def __init__(self):
-        pass
+        """ 
+        Author: Iago Rocha \n
+        Class constructor
+        - Param 0: void 
+        """
+        # Get properties of screen automatically
+        dictPropScreen = self.getScreenSize()
 
-    def settingsChrome(self):
+        # Create instance Webdriver Chrome
+        self.webdriver = self.createWebdriverChrome(
+            dictPropScreen['width'], dictPropScreen['heigth'])
+
+
+    def createWebdriverChrome(self, widthWindow, heightWindow, posX=0, posY=0, headless=False):
+        """ 
+        Author: Iago Rocha \n
+        Set options and create Webdrive Chrome
+        - Param 0: int | widthWindow
+        - Param 1: int | heightWindow
+        - Param 2: int | posX
+        - Param 3: int | posY
+        - Param 3: bool | headless
+        - Return: object | webDriver
+        """
         chromeOptions = Options()
-        # chromeOptions.add_argument('--headless')
+        if headless is True:
+            chromeOptions.add_argument('--headless')
         chromeOptions.add_argument('--no-sandbox')
         chromeOptions.add_argument('--disable-dev-shm-usage')
         chromeOptions.add_argument('--disable-notifications')
@@ -27,26 +49,40 @@ class BrowserManager():
         # Create object Chrome WebDriver
         webDriver = webdriver.Chrome(
             executable_path=pathChromeDriver, chrome_options=chromeOptions)
-        # Get properties of screen automatically
-        dictWindowProperties = self.getWindowSize()
-        webDriver.set_window_size(
-            dictWindowProperties['width'], dictWindowProperties['heigth'])
-        webDriver.set_window_position(0, 0)
+        # Position and size of window
+        webDriver.set_window_size(widthWindow, heightWindow)
+        webDriver.set_window_position(posX, posY)
         return webDriver
 
-    def openPage(self, strUrl):
-        pass
+    def openPage(self, url):
+        """ 
+        Author: Iago Rocha \n
+        Loads a web page in the current browser session
+        - Param 0: str | url
+        """
+        self.webdriver.get(url)
 
-    def close(self):
-        pass
+    def closeBrowser(self):
+        """ 
+        Author: Iago Rocha \n
+        Close the current window
+        """
+        self.webdriver.close()
 
-    def getWindowSize(self):
+    def getScreenSize(self):
+        """ 
+        Author: Iago Rocha \n
+        Get properties of screen
+        - Param 0: void
+        - Return: dict | propertiesScreen 
+            (keys: width, height)
+        """
         # Desenvolver rotina para obter tamanho da tela automaticamente (opcional)
-        propertiesWindow = {
-            'width': 1920,
-            'heigth': 1080
+        propertiesScreen = {
+            'width': 1024,
+            'heigth': 768
         }
-        return propertiesWindow
+        return propertiesScreen
 
 
 if __name__ == "__main__":
