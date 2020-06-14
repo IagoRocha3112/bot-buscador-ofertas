@@ -1,6 +1,8 @@
 from selenium.webdriver import Chrome as browser
 from selenium.webdriver.common.keys import Keys
 
+#from model.product_model import ProductModel
+
 class SearchPricesGoogleShopping():
 
     def __init__(self, objBrowser: browser):
